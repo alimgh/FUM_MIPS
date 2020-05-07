@@ -56,7 +56,7 @@ public class Controller {
             }
 
             // beq
-            case "000100" -> {
+            case "000100", "000101" -> {
                 jump = 0;
                 ALUSrc = 0;
                 RegWrite = 0;

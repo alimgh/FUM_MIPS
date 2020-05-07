@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Main {
 
-//    TODO: implement { bne } and test program
+//    TODO: create test program
     public static void main(String[] args) {
 
         int pc = 0;
@@ -58,7 +58,9 @@ public class Main {
                 String l = instruction.substring(6, 32) + "00";
                 pc = (int) Long.parseLong(h + l, 2);
 
-            } else if (Controller.Branch == 1 && bit2int(ALUResult) == 0) {
+            } else if (Controller.Branch == 1)
+                if (op.equals("000100") && bit2int(ALUResult) == 0 ||
+                        op.equals("000101") && bit2int(ALUResult) != 0) {
                 pc += (int) Long.parseLong(signedEx, 2) << 2;
             }
 
