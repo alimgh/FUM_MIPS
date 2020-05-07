@@ -56,10 +56,10 @@ public class Main {
             if (Controller.jump == 1) {
                 String h = int2bit(pc).substring(0, 4);
                 String l = instruction.substring(6, 32) + "00";
-                pc = Integer.parseInt(h + l, 2);
+                pc = (int) Long.parseLong(h + l, 2);
 
             } else if (Controller.Branch == 1 && bit2int(ALUResult) == 0) {
-                pc += Integer.parseInt(signedEx, 2) << 2;
+                pc += (int) Long.parseLong(signedEx, 2) << 2;
             }
 
             instruction = IM.readWord(pc);
@@ -91,16 +91,7 @@ public class Main {
     }
 
     private static int bit2int(String data) {
-        int result = 0;
-        int multiplier = 1;
-        String reversedAddress = new StringBuilder(data).reverse().toString();
-
-        for (char i: reversedAddress.toCharArray()) {
-
-            if (i == '1') result += multiplier;
-            multiplier *= 2;
-        }
-        return result;
+        return (int) Long.parseLong(data, 2);
     }
 
     private static String int2bit(int data) {
