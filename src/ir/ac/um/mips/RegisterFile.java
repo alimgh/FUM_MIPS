@@ -14,21 +14,20 @@ public class RegisterFile {
         return new String[]{RF[address1], RF[address2]};
     }
 
+    public String readWord(int ad) {
+        return RF[ad];
+    }
+
     public void writeWord(String ad, String data) {
         int address = bit2int(ad);
         RF[address] = data;
     }
 
     private int bit2int(String ad) {
-//        int result = 0;
-//        int multiplier = 1;
-//        String reversedAddress = new StringBuilder(ad).reverse().toString();
-//
-//        for (char i: reversedAddress.toCharArray()) {
-//
-//            if (i == '1') result += multiplier;
-//            multiplier *= 2;
-//        }
-        return Integer.parseInt(ad, 2);
+        return (int) Long.parseLong(ad, 2);
+    }
+
+    public String [] getRF() {
+        return RF;
     }
 }

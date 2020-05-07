@@ -18,15 +18,6 @@ public class InstructionMemory {
     }
 
     private int bit2int(String ad) {
-//        int result = 0;
-//        int multiplier = 1;
-//        String reversedAddress = new StringBuilder(ad).reverse().toString();
-//
-//        for (char i: reversedAddress.toCharArray()) {
-//
-//            if (i == '1') result += multiplier;
-//            multiplier *= 2;
-//        }
-        return Integer.parseInt(ad, 2);
+        return (int) Long.parseLong(ad, 2);
     }
 }

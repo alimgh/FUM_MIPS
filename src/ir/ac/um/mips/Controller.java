@@ -73,6 +73,20 @@ public class Controller {
                 RegWrite = 0;
                 MemWrite = 0;
             }
+
+            // addi
+            case "001000", "001100", "001101", "001010" -> {
+                RegDst = 0;
+                jump = 0;
+                ALUSrc = 1;
+                MemtoReg = 0;
+                RegWrite = 1;
+                MemRead = 0;
+                MemWrite = 0;
+                Branch = 0;
+                ALUOp1 = 1;
+                ALUOp0 = 1;
+            }
         }
     }
 }

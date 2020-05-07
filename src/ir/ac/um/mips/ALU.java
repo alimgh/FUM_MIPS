@@ -30,25 +30,11 @@ public class ALU {
                 break;
         }
 
-//        if (result.charAt(0) == '1')
-//            while (result.length() < 32) result = '1' + result;
-//        else
-//            while (result.length() < 32) result = '0' + result;
-
         return result;
     }
 
     private static int bit2int(String data) {
-//        int result = 0;
-//        int multiplier = 1;
-//        String reversedAddress = new StringBuilder(data).reverse().toString();
-//
-//        for (char i: reversedAddress.toCharArray()) {
-//
-//            if (i == '1') result += multiplier;
-//            multiplier *= 2;
-//        }
-        return Integer.parseInt(data, 2);
+        return (int) Long.parseLong(data, 2);
     }
 
     private static String int2bit(int data) {

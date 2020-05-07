@@ -12,21 +12,28 @@ public class DataMemory {
         return DM[address/4];
     }
 
+    public String readWord(int ad) {
+        return DM[ad/4];
+    }
+
     public void writeWord(String ad, String data) {
         int address = bit2int(ad);
         DM[address/4] = data;
     }
 
+    public void writeWord(int ad, String data) {
+        DM[ad/4] = data;
+    }
+
     private int bit2int(String ad) {
-//        int result = 0;
-//        int multiplier = 1;
-//        String reversedAddress = new StringBuilder(ad).reverse().toString();
-//
-//        for (char i: reversedAddress.toCharArray()) {
-//
-//            if (i == '1') result += multiplier;
-//            multiplier *= 2;
-//        }
-        return Integer.parseInt(ad, 2);
+        return (int) Long.parseLong(ad, 2);
+    }
+
+    public String [] top20() {
+        String[] out = new String[20];
+        for(int i = 0; i < 20; i++) {
+            out[i] = DM[i];
+        }
+        return out;
     }
 }
