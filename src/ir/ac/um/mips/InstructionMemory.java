@@ -17,6 +17,10 @@ public class InstructionMemory {
         IM[address/4] = data;
     }
 
+    public void writeWord(int ad, String data) {
+        IM[ad/4] = data;
+    }
+
     private int bit2int(String ad) {
         return (int) Long.parseLong(ad, 2);
     }
