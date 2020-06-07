@@ -135,7 +135,7 @@ public class Main {
             im.writeWord(i*4, iTemp[i]);
 
         for (int i = 0; i<12; i++)
-            dm.writeWord(i*4, iTemp[i]);
+            dm.writeWord(i*4, dTemp[i]);
     }
 
     private static int bit2int(String data) {
