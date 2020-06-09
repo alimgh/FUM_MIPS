@@ -24,6 +24,10 @@ public class ALU {
                 result = int2bit(a-b);
                 break;
 
+            case "1000":
+                result = int2bit(a<<b);
+                break;
+
             case "0111":
                 if (a < b) result = int2bit(1);
                 else result = int2bit(0);

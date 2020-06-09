@@ -26,6 +26,7 @@ public class ALUControl {
                 case "001101" -> result = "0001"; // ori
                 case "101010" -> result = "0111"; // slt
                 case "001010" -> result = "0111"; // slti
+                case "000000" -> result = "1000"; // sll
             }
         }
         return result;

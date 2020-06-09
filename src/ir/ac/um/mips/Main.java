@@ -1,6 +1,7 @@
 package ir.ac.um.mips;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 
@@ -14,6 +15,7 @@ public class Main {
 
 //        loadTest(IM, RF, DM);
         loadProgramTest(IM, RF, DM);
+//        getTest(IM, RF, DM);
 
 
         String instruction = IM.readWord(pc);
@@ -33,8 +35,14 @@ public class Main {
             // ALU
             String ALUResult = ALU.calculate(
                     ALUControl.getControl(instruction.substring(26, 32), op),
-                    readData[0],
-                    (Controller.ALUSrc == 0 ? readData[1] : signedEx)
+                    (op.equals("000000") && instruction.substring(26, 32).equals("000000")?
+                            readData[1]:
+                            readData[0]
+                    ),
+                    (op.equals("000000") && instruction.substring(26, 32).equals("000000")?
+                            instruction.substring(21, 26):
+                            (Controller.ALUSrc == 0 ? readData[1] : signedEx)
+                    )
             );
 
             // Write to Memory
@@ -63,8 +71,9 @@ public class Main {
             } else if (Controller.Branch == 1)
                 if (op.equals("000100") && bit2int(ALUResult) == 0 ||
                         op.equals("000101") && bit2int(ALUResult) != 0) {
-                pc += (int) Long.parseLong(signedEx, 2) << 2;
-            }
+                    pc += (int) Long.parseLong(signedEx, 2) << 2;
+                }
+
 
             instruction = IM.readWord(pc);
 //            System.out.println(RF.readWord(3));
@@ -95,27 +104,46 @@ public class Main {
     }
 
     private static void loadProgramTest(InstructionMemory im, RegisterFile rf, DataMemory dm) {
+//        String[] iTemp = {
+//                "00100000000001110000000000000111",
+//                "00000000000000010001000000101010",
+//                "10101100011001110000000000000000",
+//                "10001100011001000000000000000000",
+//                "00010100010001000000000000001000",
+//                "00000000010000100010000000100000",
+//                "00000000010000100010000000100000",
+//                "00000000010000100010000000100000",
+//                "00110000010001011111111111111111",
+//                "00001000000000000000000000001011",
+//                "00000000010000100010000000100000",
+//                "00000000010000100010000000100000",
+//                "10101100100000100000000000000000"};
+        rf.writeWord("00101", "00000000000000000000000000000000");
+
         String[] iTemp = {
-                "10001100000100010000000000000000",
-                "00100000000100100000000000000000",
-                "00100000000100000000000000001000",
-                "10001110000100110000000000000000",
-                "10001110000101000000000000000000",
-                "00000010010100011010100000101010",
-                "00010000000101010000000011001000",
-                "00000010010100101011000000100000",
-                "00000010110101101011000000100000",
-                "00000010000101101010100000100000",
-                "10001110101101110000000000000000",
-                "00000010111101001100000000101010",
-                "00010000000110000000000000001111",
-                "00000010111000001010000000100000",
-                "00001000000000000000000000000001",
-                "00000010111100111100100000101010",
-                "00010000000110010000000000010010",
-                "00001000000000000000000000000001",
-                "00000010111000001001100000100000",
-                "00001000000000000000000000000001"};
+                "00100000000010100000000000001010",
+                "00100000000001100000000000000000",
+                "00000000000001100101100010000000",
+                "00000001011001010101100000100000",
+                "10001101011011000000000000000000",
+                "00100001100101010000000000000000",
+                "00100001100101100000000000000000",
+                "00100000110001100000000000000001",
+                "00010000110010100000000000001110",
+                "00000000000001100101100010000000",
+                "00000001011001010101100000100000",
+                "10001101011011000000000000000000",
+                "00000001100101010001000000101010",
+                "00010000010000000000000000000100",
+                "00100001100101010000000000000000",
+                "00100000110001100000000000000001",
+                "00010100110010101111111111111000",
+                null,
+                "00000001100101100001000000101010",
+                "00010100010000001111111111110011",
+                "00100001100101100000000000000000",
+                "00100000110001100000000000000001",
+                "00010100110010101111111111110001"};
 
         String[] dTemp = {
                 "00000000000000000000000000001001",
@@ -124,18 +152,44 @@ public class Main {
                 "00000000000000000000000000000100",
                 "00000000000000000000000010000000",
                 "00000000000000000000100000000000",
-                "00000000000000000100000000000000",
-                "00000000000010000000000000000000",
+                "00000000000000000000010000000000",
+                "00000010000000000000000000000000",
                 "00000000000000000000100000000000",
-                "00000000000000001000000000000000",
-                "00000000000000000010000000000000",
-                "00000000000000010000000000000000"};
+                "00000000000000000000000000001000"};
 
-        for (int i = 0; i<20; i++)
+        for (int i = 0; i<23; i++)
             im.writeWord(i*4, iTemp[i]);
 
-        for (int i = 0; i<12; i++)
+        for (int i = 0; i<10; i++)
             dm.writeWord(i*4, dTemp[i]);
+    }
+
+    private static void getTest(InstructionMemory im, RegisterFile rf, DataMemory dm) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Number of Data:");
+        int dataSize = scanner.nextInt();
+        for (int i=0; i<dataSize; i++) {
+            String data = int2bit(scanner.nextInt());
+            dm.writeWord(i*4, data);
+        }
+        System.out.println();
+
+        System.out.println("Number of Instructions:");
+        int instrSize = scanner.nextInt();
+        for (int i=0; i<instrSize; i++) {
+            String instr = scanner.nextLine();
+            im.writeWord(i*4, instr);
+        }
+
+//        System.out.println();
+//
+//        System.out.println("Number of Instructions:");
+//        int rfSize = scanner.nextInt();
+//        for (int i=0; i<rfSize; i++) {
+//            String instr = scanner.nextLine();
+//            im.writeWord(i*4, instr);
+//        }
     }
 
     private static int bit2int(String data) {
